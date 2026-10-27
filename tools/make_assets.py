@@ -44,12 +44,37 @@ def stickers():
         webp(f"{KIT}/stickers/cut_light/{name}.png", f"{name.replace('_', '-')}-light.webp", w)
 
 
+def cut_out(icon):
+    """The icon without its white paper: flood the white from the corners, keep the white inside the drawing
+    (eyes, teeth, glasses), then trim to the head and pad to a square."""
+    rgb = icon.convert("RGB")
+    w, h = rgb.size
+    mask = Image.new("L", (w, h), 0)
+    seen = rgb.copy()
+    for x, y in [(0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)]:
+        ImageDraw.floodfill(seen, (x, y), (255, 0, 255), thresh=60)
+    px, mp = seen.load(), mask.load()
+    for y in range(h):
+        for x in range(w):
+            if px[x, y] != (255, 0, 255):
+                mp[x, y] = 255
+    out = icon.convert("RGBA")
+    out.putalpha(mask)
+    out = out.crop(out.getbbox())
+    side = max(out.size) + max(out.size) // 24
+    sq = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    sq.paste(out, ((side - out.width) // 2, (side - out.height) // 2), out)
+    return sq
+
+
 def icons():
     icon = Image.open(ICON).convert("RGBA")
+    clear = cut_out(icon)
+    # iOS paints a transparent home-screen icon black, so the touch icon keeps the white paper
     icon.resize((180, 180), Image.LANCZOS).convert("RGB").save(os.path.join(OUT, "apple-touch-icon.png"), optimize=True)
-    icon.resize((192, 192), Image.LANCZOS).save(os.path.join(OUT, "icon-192.png"), optimize=True)
-    icon.resize((512, 512), Image.LANCZOS).save(os.path.join(OUT, "icon-512.png"), optimize=True)
-    icon.save(os.path.join(ROOT, "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
+    clear.resize((192, 192), Image.LANCZOS).save(os.path.join(OUT, "icon-192.png"), optimize=True)
+    clear.resize((512, 512), Image.LANCZOS).save(os.path.join(OUT, "icon-512.png"), optimize=True)
+    clear.save(os.path.join(ROOT, "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)])
 
 
 def og():

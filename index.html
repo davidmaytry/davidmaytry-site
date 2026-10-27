@@ -7,7 +7,9 @@
        Everything on the page itself comes from config.js. -->
   <title>davidmaytry</title>
   <meta name="description" content="davidmaytry is a small indie studio making cozy multiplayer games. Our first game is Flurry Fray, a 2v2 snowball fight.">
-  <meta name="theme-color" content="#121110">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F6EEDF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
   <link rel="canonical" href="https://davidmaytry.com/">
 
   <meta property="og:type" content="website">
@@ -18,53 +20,88 @@
   <meta property="og:image" content="https://davidmaytry.com/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="davidmaytry">
+  <meta property="og:image:alt" content="The David May Try logo: a boy with cyan hair and glasses">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="davidmaytry">
   <meta name="twitter:description" content="Small indie studio making cozy multiplayer games.">
   <meta name="twitter:image" content="https://davidmaytry.com/assets/og-image.png">
 
-  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/ShantellSans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="top wrap">
-    <a class="brand" href="#top" aria-label="Home">
-      <img src="assets/mark.svg" alt="" width="28" height="28">
-      <span data-site="name">davidmaytry</span>
-    </a>
-    <nav>
-      <a href="#games">Games</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <header class="hero wrap">
+    <div class="logo">
+      <div class="drop" style="--d:.05s">
+        <picture class="logo__head boil">
+          <source srcset="assets/brand/head-dark.webp" media="(prefers-color-scheme: dark)">
+          <img src="assets/brand/head-light.webp" alt="" width="720" height="635">
+        </picture>
+      </div>
+      <div class="logo__side">
+        <div class="drop" style="--d:.3s">
+          <h1 class="logo__word boil" style="--b:1.3s">
+            <picture>
+              <source srcset="assets/brand/wordmark-white.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/wordmark-black.webp" width="1000" height="426" data-site-alt="name" alt="davidmaytry">
+            </picture>
+          </h1>
+        </div>
+        <div class="drop" style="--d:.55s">
+          <p class="tagline" data-site="tagline"></p>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main id="top">
-    <section class="hero wrap">
-      <h1 data-site="name">davidmaytry</h1>
-      <p class="tagline" data-site="tagline"></p>
-    </section>
-
+  <main>
     <section id="games" class="wrap section">
-      <h2>Games</h2>
-      <div class="games" id="games-grid"></div>
+      <div class="drop" style="--d:.75s"><h2 class="title">Games</h2></div>
+      <div class="stage">
+        <div class="boy" id="boy" data-face="head" aria-hidden="true">
+          <div class="boy__body boil" style="--b:1.1s">
+            <picture class="boy__hand">
+              <source srcset="assets/brand/hand-point-dark.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/hand-point-light.webp" alt="" width="260" height="201">
+            </picture>
+            <picture class="boy__face" data-face="head">
+              <source srcset="assets/brand/head-dark.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/head-light.webp" alt="" width="720" height="635">
+            </picture>
+            <picture class="boy__face" data-face="tongue">
+              <source srcset="assets/brand/face-tongue-dark.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/face-tongue-light.webp" alt="" width="285" height="266">
+            </picture>
+            <picture class="boy__face" data-face="suspicious">
+              <source srcset="assets/brand/face-suspicious-dark.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/face-suspicious-light.webp" alt="" width="281" height="269">
+            </picture>
+            <picture class="boy__face" data-face="smile">
+              <source srcset="assets/brand/face-smile-dark.webp" media="(prefers-color-scheme: dark)">
+              <img src="assets/brand/face-smile-light.webp" alt="" width="284" height="275">
+            </picture>
+          </div>
+        </div>
+        <div class="games" id="games-grid"></div>
+      </div>
     </section>
 
-    <section id="contact" class="wrap section">
-      <h2>Contact</h2>
-      <a class="email" data-site="email" href="#"></a>
-      <p class="muted" data-site="contactLine"></p>
+    <section id="contact" class="wrap section contact">
+      <div class="drop" style="--d:.1s"><h2 class="title">Say hi</h2></div>
+      <div class="drop" style="--d:.25s">
+        <a class="email" id="email" data-face="smile" href="#"><span data-site="email"></span><svg class="email__line" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 10 C 60 4, 120 13, 180 7 S 270 5, 297 9"/></svg></a>
+      </div>
+      <p class="note" data-site="contactLine"></p>
     </section>
   </main>
 
   <footer class="wrap foot">
     <span>&copy; <span id="year">2026</span> <span data-site="name">davidmaytry</span></span>
+    <a href="assets/fonts/LICENSES.txt">Font licenses</a>
   </footer>
 
   <script src="config.js"></script>

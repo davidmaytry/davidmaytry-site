@@ -1,14 +1,24 @@
-Rendering the pictures that contain the studio name (Edge, headless).
-Run from the repo root in Git Bash after changing config.js or assets/mark.svg:
+Brand art on this site
+======================
 
-  E="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
-  "$E" --headless --disable-gpu --hide-scrollbars --window-size=1200,630 \
-       --virtual-time-budget=5000 --screenshot="$PWD/assets/og-image.png" "file:///$PWD/tools/og.html"
-  python tools/make_icons.py
+Everything under assets/ (logo head, wordmarks, the boy's faces and hand, the
+hourglass sticker, favicon.ico, apple-touch-icon.png, icon-192/512.png,
+og-image.png, fonts and their licenses) is made by one script from the
+studio's own files. The sources are only read, never changed:
 
-The favicon is assets/mark.svg (a drawn "d", no font involved);
-make_icons.py draws the same shape into favicon.ico, apple-touch-icon.png
-and tools/mark-512.png (a large copy of the mark for avatars etc.).
-If you change mark.svg, change the numbers in make_icons.py too.
+  D:/Important/Games/DavidMayTry/david_may_try_icon_1024.png   favicon, icons, og-image
+  C:/Projects/media/postkit/brand/logo/                       head_color, wordmark_black/white
+  C:/Projects/media/postkit/stickers/cut, cut_light/           faces, hand, hourglass (dark / light theme)
+  C:/Projects/media/postkit/brand/fonts/                       Shantell Sans, Gochi Hand + licenses
 
-On Windows pass Windows-style paths (cygpath -m "$PWD") to Edge.
+Run from the repo root (needs: pip install pillow fonttools brotli):
+
+  python tools/make_assets.py
+
+The page picks the dark or light copy of each sticker by the system theme
+(<picture> with a prefers-color-scheme source), as the shorts do: white
+sticker border on the dark sheet, none on cream paper.
+
+Screenshots for checking (not committed, shots/ is ignored):
+
+  shots/snap.sh <url> <name> <width> <height> [dark]   headless Edge, final state

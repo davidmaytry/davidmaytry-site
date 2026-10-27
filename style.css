@@ -1,28 +1,63 @@
+/* David May Try studio page, in the look of the studio's paper cut-out shorts:
+   flat paper, thick black marker, cyan / lilac / pink with one pink accent per idea,
+   text flat on the paper (no text shadows, no glows), no sparkles or bursts. */
+
+@font-face {
+  font-family: "Shantell";
+  src: url("assets/fonts/ShantellSans-latin.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Gochi";
+  src: url("assets/fonts/GochiHand.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* light = cream paper (default), dark = dark paper; both follow the system setting */
 :root {
-  --bg: #121110;
-  --surface: #1b1a18;
-  --line: #2c2a27;
-  --text: #efebe4;
-  --muted: #9b958c;
-  --accent: #ff7a45;
-  --accent-ink: #16130f;
-  --radius: 14px;
+  --ink: #111111;
+  --bg: #F6EEDF;
+  --fg: #111111;
+  --paper: #FFFFFF;
+  --cut: transparent;          /* white sticker border: only on the dark sheet */
+  --cyan: #0BB2DD;
+  --lilac: #A274F0;
+  --pink: #FF5C9A;
+  --muted: #6E6880;
+  --soon: #EFE4CF;
+  --lift: drop-shadow(0 5px 0 rgba(17, 17, 17, .14));
   --gutter: clamp(16px, 5vw, 48px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg: #F6EEDF;
+    --paper: #F3E9D6;
+    --cut: #FFFFFF;
+    --cyan: #13C8F0;
+    --muted: #8E8AA6;
+    --soon: #E6DAC2;
+    --lift: none;
+    color-scheme: dark;
+  }
 }
 
 * { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text);
-  font: 400 17px/1.55 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
+  color: var(--fg);
+  font: 400 18px/1.45 "Shantell", "Comic Sans MS", system-ui, sans-serif;
+  font-variation-settings: "INFM" 60;
+  overflow-x: hidden;
 }
-
+img { display: block; max-width: 100%; height: auto; }
+picture { display: block; }
 a { color: inherit; }
+:focus-visible { outline: 3px dashed var(--fg); outline-offset: 5px; border-radius: 6px; }
 
 .wrap {
   width: 100%;
@@ -32,191 +67,258 @@ a { color: inherit; }
   padding-right: var(--gutter);
 }
 
-/* top bar */
-.top {
+/* ---------- hero: the logo, big ---------- */
+.hero { padding-top: clamp(36px, 7vw, 88px); padding-bottom: clamp(24px, 5vw, 56px); }
+.logo {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 22px;
-  padding-bottom: 22px;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 56px);
 }
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-}
-.brand img { display: block; border-radius: 7px; }
-.top nav { display: flex; gap: 22px; }
-.top nav a {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 15px;
-}
-.top nav a:hover, .top nav a:focus-visible { color: var(--text); }
-
-/* hero */
-.hero {
-  padding-top: clamp(56px, 12vw, 150px);
-  padding-bottom: clamp(56px, 10vw, 120px);
-}
-.hero h1 {
-  margin: 0;
-  font-weight: 800;
-  font-size: clamp(48px, 13vw, 168px);
-  line-height: 0.95;
-  letter-spacing: -0.045em;
-  overflow-wrap: anywhere;
-}
-.hero h1::after {
-  content: ".";
-  color: var(--accent);
-}
+.logo__head { width: clamp(150px, 30vw, 360px); }
+.logo__side { display: flex; flex-direction: column; align-items: flex-start; }
+.logo__word { margin: 0; width: clamp(200px, 42vw, 560px); }
 .tagline {
-  margin: 22px 0 0;
-  max-width: 30ch;
-  font-size: clamp(19px, 2.4vw, 26px);
-  line-height: 1.35;
-  color: var(--muted);
+  margin: clamp(10px, 2vw, 22px) 0 0 clamp(4px, 3vw, 40px);
+  max-width: 22ch;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 30px);
+  line-height: 1.2;
+  font-variation-settings: "INFM" 100, "BNCE" 40;
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+@media (max-width: 640px) {
+  .logo { flex-direction: column; gap: 6px; }
+  .logo__side { align-items: center; text-align: center; }
+  .logo__head { width: min(56vw, 240px); }
+  .logo__word { width: min(78vw, 340px); }
+  .tagline { margin-left: 0; transform: rotate(-2deg); transform-origin: center; }
 }
 
-/* sections */
-.section {
-  padding-top: 36px;
-  padding-bottom: 72px;
-  border-top: 1px solid var(--line);
-}
-.section h2 {
-  margin: 0 0 28px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+/* ---------- sections ---------- */
+.section { padding-top: clamp(28px, 5vw, 48px); padding-bottom: clamp(40px, 7vw, 80px); }
+.title {
+  display: inline-block;
+  margin: 0 0 clamp(22px, 4vw, 40px);
+  font-weight: 800;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1;
+  font-variation-settings: "INFM" 100, "BNCE" 40;
+  transform: rotate(-3deg);
+  transform-origin: left center;
 }
 
-/* game cards */
+/* ---------- the boy next to the games ---------- */
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: clamp(16px, 2.5vw, 36px);
+  align-items: center;
+}
+.boy { position: relative; align-self: center; }
+.boy__body { position: relative; width: 220px; aspect-ratio: 1.12; }
+.boy__face {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  visibility: hidden;
+}
+.boy__face img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+.boy[data-face="head"] .boy__face[data-face="head"],
+.boy[data-face="tongue"] .boy__face[data-face="tongue"],
+.boy[data-face="suspicious"] .boy__face[data-face="suspicious"],
+.boy[data-face="smile"] .boy__face[data-face="smile"] { visibility: visible; }
+/* the hand floats next to the head, kept behind it (lower z), pointing at the cards */
+.boy__hand {
+  position: absolute;
+  z-index: 1;
+  width: 104px;
+  left: 172px;
+  top: 104px;
+  transform: rotate(-8deg);
+}
+
+@media (max-width: 860px) {
+  .stage { display: block; }
+  /* on a phone he sits at the right of the heading, turned to face the cards below */
+  .boy { position: absolute; right: 2px; top: clamp(-118px, -15vw, -86px); }
+  .boy__body { width: clamp(108px, 28vw, 150px); transform: scaleX(-1); }
+  /* he peeks over the first card, like over a bar in the shorts; the hand stays behind it */
+  .boy__hand { display: none; }
+}
+
+/* ---------- game cards: cut-out paper stickers ---------- */
 .games {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: clamp(28px, 4vw, 44px);
+  align-items: stretch;
 }
+.games > .drop { display: flex; }
+.games > .drop > .card { flex: 1; }
 .card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.card__media {
   position: relative;
-  aspect-ratio: 920 / 430;
-  background: #22201d;
-}
-.card__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.card--soon .card__media {
-  display: grid;
-  place-items: center;
-  background:
-    repeating-linear-gradient(135deg, transparent 0 14px, rgba(255,255,255,0.025) 14px 28px),
-    #1f1d1a;
-}
-.card__placeholder {
-  font-weight: 800;
-  font-size: clamp(22px, 3vw, 30px);
-  letter-spacing: -0.02em;
-  color: #3a3733;
-  text-align: center;
-  padding: 0 16px;
-}
-.card__status {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(18, 17, 16, 0.85);
-  border: 1px solid var(--line);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.card__body {
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 20px 22px 22px;
-  flex: 1;
-}
-.card__title {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-}
-.card__blurb { margin: 0; color: var(--muted); font-size: 16px; }
-.card__links {
-  display: flex;
-  flex-wrap: wrap;
   gap: 10px;
-  margin-top: auto;
-  padding-top: 14px;
+  padding: 16px 16px 22px;
+  color: var(--ink);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform .24s steps(2, end);
 }
+.card:hover, .card:focus-within { transform: rotate(calc(var(--tilt, 0deg) * .3)) translateY(-4px); }
+
+/* the hand-drawn outlines: SVG paths written by main.js, redrawn a few times a second ("boil") */
+.shape { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: -1; }
+.shape .cut { fill: none; stroke: var(--cut); stroke-linejoin: round; }
+.shape .fill { stroke: none; }
+.shape .line { fill: none; stroke: var(--ink); stroke-linejoin: round; stroke-linecap: round; }
+.card > .shape { filter: var(--lift); }
+.card > .shape .fill { fill: var(--paper); }
+
+.card__media { position: relative; aspect-ratio: 920 / 430; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; }
+.card__media > .shape { z-index: 2; }
+
+.card--soon .card__media { display: grid; place-items: center; }
+.card--soon .card__media > .shape { z-index: -1; }
+.card--soon .card__media .shape .fill { fill: var(--soon); }
+.card--soon .card__media .shape .line { stroke-dasharray: 11 9; stroke-width: 3; }
+.soon__icon { width: clamp(58px, 9vw, 86px); }
+
+.card__tag {
+  position: absolute;
+  z-index: 3;
+  top: -14px;
+  left: -10px;
+  padding: 5px 14px 7px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .02em;
+  color: var(--ink);
+  transform: rotate(-6deg);
+  isolation: isolate;
+}
+.card__tag .shape .fill { fill: var(--lilac); }
+
+.card__title {
+  margin: 6px 0 0;
+  font-weight: 800;
+  font-size: clamp(26px, 3vw, 32px);
+  line-height: 1.05;
+  font-variation-settings: "INFM" 100, "BNCE" 40;
+}
+.card__blurb { margin: 0; font-size: 18px; line-height: 1.4; }
+.card__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 
 .btn {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 20px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  font-weight: 600;
-  font-size: 15px;
-  text-decoration: none;
-  transition: background-color .15s, border-color .15s;
-}
-.btn:hover, .btn:focus-visible { border-color: var(--muted); }
-.btn--primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
-}
-.btn--primary:hover, .btn--primary:focus-visible { background: #ff905f; border-color: #ff905f; }
-
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-/* contact */
-.email {
-  display: inline-block;
+  min-height: 48px;
+  min-width: 112px;
+  padding: 0 22px 2px;
   font-weight: 700;
-  font-size: clamp(24px, 5vw, 48px);
-  letter-spacing: -0.03em;
+  font-size: 17px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform .2s steps(2, end);
+}
+.btn .shape .fill { fill: var(--btn, var(--paper)); }
+.btn--pink { --btn: var(--pink); }
+.btn--cyan { --btn: var(--cyan); }
+.btn:hover { transform: rotate(-3deg) scale(1.04); }
+.btn:active { transform: rotate(-1deg) scale(.97); }
+.btn:focus-visible { outline-color: var(--ink); }
+
+/* ---------- contact ---------- */
+.contact { padding-bottom: clamp(40px, 6vw, 72px); }
+.email {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 14px;
+  font-weight: 800;
+  font-size: clamp(26px, 6vw, 54px);
+  line-height: 1.1;
   text-decoration: none;
   overflow-wrap: anywhere;
-  border-bottom: 2px solid var(--accent);
-  line-height: 1.2;
+  font-variation-settings: "INFM" 100, "BNCE" 40;
 }
-.email:hover { color: var(--accent); }
-.muted { color: var(--muted); margin: 14px 0 0; }
-
-/* footer */
-.foot {
-  padding-top: 24px;
-  padding-bottom: 40px;
-  border-top: 1px solid var(--line);
+.email__line { position: absolute; left: 0; bottom: 0; width: 100%; height: 14px; overflow: visible; }
+.email__line path { fill: none; stroke: var(--pink); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.note {
+  margin: 12px 0 0;
+  font-family: "Gochi", "Shantell", sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
   color: var(--muted);
-  font-size: 14px;
+  transform: rotate(-1.5deg);
+  transform-origin: left center;
+}
+
+/* ---------- footer ---------- */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  color: var(--muted);
+  font-size: 15px;
+}
+.foot a { text-underline-offset: 3px; }
+
+/* ---------- paper motion (on twos, like the shorts) ---------- */
+/* a piece falls onto the sheet: drops in tilted, squashes on landing, settles */
+@keyframes drop {
+  0%   { opacity: 0; transform: translateY(-70px) rotate(7deg); animation-timing-function: steps(3, jump-end); }
+  12%  { opacity: 1; }
+  50%  { transform: translateY(0) rotate(0) scale(1.05, .9); animation-timing-function: steps(2, jump-end); }
+  72%  { transform: translateY(-7px) scale(.98, 1.03); animation-timing-function: steps(2, jump-end); }
+  100% { opacity: 1; transform: none; }
+}
+/* the cut-out never sits perfectly still: a new pose every ~0.2 s */
+@keyframes boil {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  17%  { transform: translate(.7px, -.6px) rotate(.45deg); }
+  33%  { transform: translate(-.5px, .5px) rotate(-.35deg); }
+  50%  { transform: translate(.4px, .7px) rotate(.25deg); }
+  67%  { transform: translate(-.7px, -.3px) rotate(-.5deg); }
+  83%  { transform: translate(.3px, -.7px) rotate(.3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+/* the boy walks in from the side in four steps */
+@keyframes walk {
+  0%   { opacity: 0; transform: translate(-200px, 0); }
+  10%  { opacity: 1; transform: translate(-200px, 0); }
+  25%  { transform: translate(-150px, -12px); }
+  40%  { transform: translate(-100px, 0); }
+  55%  { transform: translate(-50px, -12px); }
+  70%  { transform: translate(0, 0); }
+  85%  { transform: translate(0, -4px); }
+  100% { opacity: 1; transform: none; }
+}
+
+.boil { animation: boil var(--b, 1.2s) step-end infinite; }
+
+.js .drop { opacity: 0; }
+.js .drop.go { animation: drop .62s both; animation-delay: var(--d, 0s); }
+.js .boy { opacity: 0; }
+.js .boy.go { animation: walk 1s step-end both; animation-delay: var(--d, .9s); }
+@media (max-width: 860px) {
+  .js .boy.go { animation: drop .62s both; animation-delay: var(--d, .9s); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .boil { animation: none; }
+  .js .drop, .js .boy { opacity: 1; }
+  .js .drop.go, .js .boy.go { animation: none; }
+  .card, .btn { transition: none; }
 }

@@ -15,6 +15,15 @@ Run from the repo root (needs: pip install pillow fonttools brotli):
 
   python tools/make_assets.py
 
+Social icons (assets/social/*.png: youtube, reddit, x, instagram, tiktok) are not
+copied from anywhere: the same script draws them, in the stickers' marker-and-flat-fill
+look. They are the glyph only; the paper plate around each is drawn by main.js like the
+cards. To redraw just them, without touching the rest:
+
+  python tools/make_assets.py social
+
+The links themselves are in config.js, `socials` (one line per network).
+
 The page picks the dark or light copy of each sticker by the system theme
 (<picture> with a prefers-color-scheme source), as the shorts do: white
 sticker border on the dark sheet, none on cream paper.

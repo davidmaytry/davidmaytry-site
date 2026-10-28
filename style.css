@@ -261,6 +261,33 @@ a { color: inherit; }
   transform-origin: left center;
 }
 
+/* social buttons: square paper plates, tilted a little each, lifting like the cards */
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  margin: clamp(26px, 4vw, 40px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.social {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: clamp(54px, 15vw, 80px);
+  aspect-ratio: 1;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform .2s steps(2, end);
+}
+.social img { width: 74%; }
+.social > .shape { filter: var(--lift); }
+.social .shape .fill { fill: var(--paper); }
+.social:hover, .social:focus-visible { transform: rotate(calc(var(--tilt, 0deg) * -1)) translateY(-5px) scale(1.06); }
+.social:active { transform: rotate(0deg) scale(.95); }
+.social:focus-visible { outline-offset: 4px; }
+@media (max-width: 480px) { .socials { gap: 14px 12px; } }
+
 /* ---------- footer ---------- */
 .foot {
   display: flex;
@@ -320,5 +347,5 @@ a { color: inherit; }
   .boil { animation: none; }
   .js .drop, .js .boy { opacity: 1; }
   .js .drop.go, .js .boy.go { animation: none; }
-  .card, .btn { transition: none; }
+  .card, .btn, .social { transition: none; }
 }

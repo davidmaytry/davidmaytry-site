@@ -92,6 +92,32 @@
     grid.appendChild(slot);
   });
 
+  // ---------- social buttons: a paper plate with the network's icon ----------
+  var STILTS = ["-4deg", "3deg", "-2deg", "4deg", "-3deg"];
+  var socials = document.getElementById("socials");
+  (S.socials || []).forEach(function (s, i) {
+    var li = el("li", "drop");
+    li.style.setProperty("--d", (0.35 + i * 0.08).toFixed(2) + "s");
+    var a = el("a", "social");
+    a.dataset.shape = "social";
+    a.dataset.face = "smile";
+    a.style.setProperty("--tilt", STILTS[i % STILTS.length]);
+    a.href = s.href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.setAttribute("aria-label", s.name);
+    a.title = s.name;
+    var img = el("img");
+    img.src = "assets/social/" + s.icon + ".png";
+    img.alt = "";
+    img.width = 192;
+    img.height = 192;
+    img.decoding = "async";
+    a.appendChild(img);
+    li.appendChild(a);
+    socials.appendChild(li);
+  });
+
   // ---------- hand-drawn outlines ----------
   // A rounded rectangle whose sides bow a little like a marker line, from a seeded random
   // (the same idea as the shorts renderer). Three seeds per shape, cycled = paper "boil".
@@ -146,6 +172,7 @@
     soon:  { r: 6,  wob: 1.8, line: 3,   cut: 0 },
     btn:   { r: 22, wob: 1.6, line: 3.5, cut: 0 },
     tag:   { r: 6,  wob: 1.4, line: 3,   cut: 8 },
+    social: { r: 16, wob: 1.6, line: 3.5, cut: 9 },
   };
   var SVGNS = "http://www.w3.org/2000/svg";
   var shapes = [];

@@ -12,6 +12,16 @@ window.SITE = {
   email: "hello@davidmaytry.com",
   contactLine: "for press, feedback and support",
 
+  // Social buttons at the end of the page, in this order. To change a link, change its href.
+  //   icon - name of the picture in assets/social/ (drawn by tools/make_assets.py)
+  socials: [
+    { name: "YouTube", href: "https://www.youtube.com/@davidmaytry", icon: "youtube" },
+    { name: "Reddit", href: "https://www.reddit.com/user/davidmaytry", icon: "reddit" },
+    { name: "X", href: "https://x.com/davidmaytry", icon: "x" },
+    { name: "Instagram", href: "https://www.instagram.com/davidmaytry", icon: "instagram" },
+    { name: "TikTok", href: "https://www.tiktok.com/@davidmaytry", icon: "tiktok" },
+  ],
+
   // One entry per game. Order here is order on the page.
   //   image   - path to a 920x430 picture (omit for a "coming soon" card)
   //   links   - buttons, in order; omit or leave empty for none

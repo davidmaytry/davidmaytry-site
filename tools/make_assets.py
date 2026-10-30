@@ -159,7 +159,7 @@ def write_licenses():
 
 
 # ---------- social icons: drawn here, in the stickers' look ----------
-# Each network's own silhouette (play button, Snoo, X, camera, note), but in thick black marker with flat
+# Each network's own silhouette (Clyde, valve, play button, Snoo, X, camera, note), but in thick black marker with flat
 # fills from the site's palette, the way the shorts' stickers are drawn. The paper plate behind each icon is
 # the page's own hand-drawn outline (main.js), so these PNGs are the glyph only, with "paper" parts left
 # transparent: the plate shows through, cream or white, in either theme.
@@ -238,6 +238,62 @@ def _stroke(d, pts, width=MARKER):
     _brush(d, pts, width)
 
 
+def _cubic(p0, p1, p2, p3, n=32):
+    return [tuple((1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t * t * c + t ** 3 * e
+                  for a, b, c, e in zip(p0, p1, p2, p3)) for t in (i / n for i in range(n + 1))]
+
+
+def _discord(d):
+    """Clyde, the gamepad-face, after the official outline (127 x 96 units) scaled into the icon."""
+    k, ox, oy = 5.2, 54, 134
+    u = lambda x, y: (ox + x * k, oy + y * k)
+    shape = (_bez(u(19.4, 8.1), u(32, 2.5), u(45.6, 0)) + [u(49, 6.8), u(63.5, 5.7), u(78.1, 6.8)]   # horns, brow
+             + _bez(u(81.5, 0), u(95, 2.5), u(107.7, 8.1))
+             + _cubic(u(107.7, 8.1), u(122.1, 29.1), u(129.2, 52.8), u(126.6, 80.2))              # right cheek
+             + _bez(u(126.6, 80.2), u(112, 91), u(94.4, 96.4))
+             + _bez(u(87.5, 84.5), u(63.6, 90), u(39.6, 84.5))                                     # feet, chin
+             + _bez(u(32.7, 96.4), u(15, 91), u(0.5, 80.2))
+             + _cubic(u(0.5, 80.2), u(-1.7, 56.6), u(2.8, 32.7), u(19.4, 8.1)))                    # left cheek
+    _part(d, _dense(shape), LILAC, 61)
+    _part(d, _ellipse(*u(42.4, 53), 11.6 * k, 12.9 * k), CLEAR, 62, amp=3, line=26)                # eyes
+    _part(d, _ellipse(*u(84.7, 53), 11.6 * k, 12.9 * k), CLEAR, 63, amp=3, line=26)
+
+
+def _steam(d):
+    """The valve: a disk with a crank, the rod running out through the disk's edge to the paper."""
+    cx, cy, R = 384, 384, 340
+    _part(d, _ellipse(cx, cy, R), CYAN, 71)
+    sx, sy = 292, 508                               # small joint (crank pin)
+    gx, gy = 502, 290                               # the big wheel
+    # rod: from the pin out to the lower-left edge; its fill erases the disk's line there, so it opens to paper
+    ux, uy = -0.92, 0.39
+    nx, ny = -uy, ux
+    def hit(px, py):                                # where a ray along the rod leaves the disk
+        b = (px - cx) * ux + (py - cy) * uy
+        c = (px - cx) ** 2 + (py - cy) ** 2 - R * R
+        t = -b + math.sqrt(b * b - c)
+        return px + ux * t, py + uy * t
+    w0, w1 = 58, 74                                 # a little wider where it leaves the disk
+    a0, b0 = (sx + nx * w0, sy + ny * w0), (sx - nx * w0, sy - ny * w0)
+    a1 = hit(sx + nx * w1, sy + ny * w1)
+    b1 = hit(sx - nx * w1, sy - ny * w1)
+    far = lambda p: (p[0] + ux * 60, p[1] + uy * 60)
+    d.polygon([a0, a1, far(a1), far(b1), b1, b0], fill=CLEAR)
+    _stroke(d, _dense([a0, a1])[:-1] + [a1])
+    _stroke(d, _dense([b0, b1])[:-1] + [b1])
+    # arm from the pin to the wheel, wider at the wheel
+    vx, vy = gx - sx, gy - sy
+    L = math.hypot(vx, vy)
+    vx, vy = vx / L, vy / L
+    px, py = -vy, vx
+    _part(d, _dense([(sx + px * 50, sy + py * 50), (gx + px * 92, gy + py * 92),
+                     (gx - px * 92, gy - py * 92), (sx - px * 50, sy - py * 50)]), CLEAR, 72, amp=4)
+    _part(d, _ellipse(sx, sy, 88), CLEAR, 73, amp=3)
+    _part(d, _ellipse(sx, sy, 38), CYAN, 74, amp=2, line=22)
+    _part(d, _ellipse(gx, gy, 132), CLEAR, 75, amp=4)
+    _part(d, _ellipse(gx, gy, 68), CYAN, 76, amp=3, line=24)
+
+
 def _youtube(d):
     _part(d, _rrect(60, 168, 708, 600, 150), PINK, 11)
     _part(d, _dense([(306, 252), (306, 516), (536, 384)]), CLEAR, 12, amp=4)
@@ -286,7 +342,7 @@ def _tiktok(d, img):
 
 def social_icons():
     os.makedirs(SOCIAL, exist_ok=True)
-    for name, fn in [("youtube", _youtube), ("reddit", _reddit), ("x", _x),
+    for name, fn in [("discord", _discord), ("steam", _steam), ("youtube", _youtube), ("reddit", _reddit), ("x", _x),
                      ("instagram", _instagram), ("tiktok", _tiktok)]:
         img = Image.new("RGBA", (S4, S4), CLEAR)
         d = ImageDraw.Draw(img)

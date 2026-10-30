@@ -15,7 +15,7 @@ Run from the repo root (needs: pip install pillow fonttools brotli):
 
   python tools/make_assets.py
 
-Social icons (assets/social/*.png: youtube, reddit, x, instagram, tiktok) are not
+Social icons (assets/social/*.png: discord, steam, youtube, reddit, x, instagram, tiktok) are not
 copied from anywhere: the same script draws them, in the stickers' marker-and-flat-fill
 look. They are the glyph only; the paper plate around each is drawn by main.js like the
 cards. To redraw just them, without touching the rest:

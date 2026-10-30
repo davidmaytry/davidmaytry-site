@@ -15,6 +15,8 @@ window.SITE = {
   // Social buttons at the end of the page, in this order. To change a link, change its href.
   //   icon - name of the picture in assets/social/ (drawn by tools/make_assets.py)
   socials: [
+    { name: "Discord", href: "https://discord.gg/5TSvHTVxs7", icon: "discord" },
+    { name: "Steam", href: "https://store.steampowered.com/curator/46541174/", icon: "steam" },   // the studio's curator page
     { name: "YouTube", href: "https://www.youtube.com/@davidmaytry", icon: "youtube" },
     { name: "Reddit", href: "https://www.reddit.com/user/davidmaytry", icon: "reddit" },
     { name: "X", href: "https://x.com/davidmaytry", icon: "x" },

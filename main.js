@@ -93,7 +93,7 @@
   });
 
   // ---------- social buttons: a paper plate with the network's icon ----------
-  var STILTS = ["-4deg", "3deg", "-2deg", "4deg", "-3deg"];
+  var STILTS = ["-4deg", "3deg", "-2deg", "4deg", "-3deg", "2deg", "-4deg"];
   var socials = document.getElementById("socials");
   (S.socials || []).forEach(function (s, i) {
     var li = el("li", "drop");

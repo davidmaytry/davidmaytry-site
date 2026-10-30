@@ -32,7 +32,7 @@ window.SITE = {
   games: [
     {
       title: "Flurry Fray",
-      blurb: "A cozy 2v2 snowball fight for 2–4 players, in local splitscreen or online.",
+      blurb: "A cozy team snowball fight, in local splitscreen for up to 4 or online with friends.",
       image: "assets/flurry-fray-capsule.webp",
       imageAlt: "Flurry Fray logo pressed into snow next to a kid in a red coat making a snow angel",
       links: [

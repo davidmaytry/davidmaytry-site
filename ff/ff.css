@@ -1,0 +1,143 @@
+/* Short-link pages in ff/: the studio page's paper look, cut down to one sticker,
+   one line and the buttons. Colours and fonts are the ones in /style.css. */
+
+@font-face {
+  font-family: "Shantell";
+  src: url("/assets/fonts/ShantellSans-latin.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Gochi";
+  src: url("/assets/fonts/GochiHand.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --ink: #111111;
+  --bg: #F6EEDF;
+  --fg: #111111;
+  --cut: transparent;
+  --cyan: #0BB2DD;
+  --pink: #FF5C9A;
+  --muted: #6E6880;
+  --lift: 0 5px 0 rgba(17, 17, 17, .14);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg: #F6EEDF;
+    --cut: #FFFFFF;
+    --cyan: #13C8F0;
+    --muted: #8E8AA6;
+    --lift: 0 0 0 0 transparent;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 4vw, 28px);
+  padding: 32px clamp(16px, 5vw, 48px);
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 18px/1.45 "Shantell", "Comic Sans MS", system-ui, sans-serif;
+  font-variation-settings: "INFM" 60;
+  text-align: center;
+}
+a { color: inherit; }
+/* centred when it fits; when it does not (#check on a phone), it starts at the top
+   instead of spilling over it, where it could not be scrolled to */
+body > :first-child { margin-top: auto; }
+body > .home { margin-bottom: auto; }
+:focus-visible { outline: 3px dashed var(--fg); outline-offset: 5px; border-radius: 6px; }
+
+/* the game's capsule, as a cut-out sticker with a marker edge */
+.capsule {
+  display: block;
+  width: min(100%, 460px);
+  height: auto;
+  border: 4px solid var(--ink);
+  border-radius: 12px 9px 13px 10px / 10px 13px 9px 12px;
+  box-shadow: 0 0 0 7px var(--cut), var(--lift);
+  transform: rotate(-1.6deg);
+}
+
+.status {
+  margin: 6px 0 0;
+  font-weight: 800;
+  font-size: clamp(32px, 6vw, 52px);
+  line-height: 1.05;
+  font-variation-settings: "INFM" 100, "BNCE" 40;
+  transform: rotate(-3deg);
+}
+
+.buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  min-width: 160px;
+  padding: 0 24px 2px;
+  border: 3.5px solid var(--ink);
+  border-radius: 24px 20px 26px 21px / 22px 26px 20px 25px;
+  background: var(--btn, var(--pink));
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 0 0 4px var(--cut);   /* white sticker edge, dark sheet only */
+  transition: transform .2s steps(2, end);
+}
+.btn--cyan { --btn: var(--cyan); }
+.btn:hover { transform: rotate(-3deg) scale(1.04); }
+.btn:active { transform: rotate(-1deg) scale(.97); }
+.btn:focus-visible { outline-color: var(--fg); }
+
+/* the Steam-app button only where the page tries the app: a PC browser */
+#open-app { display: none; }
+.path-pc #open-app { display: inline-flex; }
+
+.note {
+  margin: 0;
+  max-width: 30ch;
+  font-family: "Gochi", "Shantell", sans-serif;
+  font-size: clamp(20px, 3vw, 24px);
+  line-height: 1.25;
+  color: var(--muted);
+  transform: rotate(-1.5deg);
+}
+.home { color: var(--muted); font-size: 15px; text-underline-offset: 3px; }
+
+#check-out {
+  max-width: min(100%, 640px);
+  margin: 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--muted);
+  border-radius: 10px;
+  font: 13px/1.5 ui-monospace, Consolas, monospace;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@keyframes boil {
+  0%   { transform: rotate(-1.6deg) translate(0, 0); }
+  33%  { transform: rotate(-1.2deg) translate(.6px, -.5px); }
+  67%  { transform: rotate(-2deg) translate(-.5px, .5px); }
+  100% { transform: rotate(-1.6deg) translate(0, 0); }
+}
+.capsule { animation: boil 1.2s step-end infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .capsule { animation: none; }
+  .btn { transition: none; }
+}
